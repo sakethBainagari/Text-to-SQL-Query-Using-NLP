@@ -1,11 +1,22 @@
 import sqlite3
+import streamlit as st
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import re
 
 # Load the T5 model and tokenizer
 model_name = "mrm8488/t5-base-finetuned-wikiSQL"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+@st.cache_resource
+def load_model():
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(model_name, legacy=True)
+        model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        return tokenizer, model
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        return None, None
+
+tokenizer, model = load_model()
 
 # Database schema information
 SCHEMA_INFO = """
