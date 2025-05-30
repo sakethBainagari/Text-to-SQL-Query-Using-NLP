@@ -2,4 +2,5 @@ streamlit>=1.22.0
 pandas>=1.5.3
 torch>=2.0.0
 transformers>=4.28.1
-sqlite3-api>=2.0.1
+scikit-learn>=1.0.2
+numpy>=1.21.0
